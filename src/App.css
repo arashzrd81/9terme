@@ -1,0 +1,25 @@
+/* Global Styles */
+
+@font-face {
+    font-family: Ravi;
+    src: url("./assets/font/Ravi.ttf");
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: Ravi;
+}
+
+body {
+    overflow: hidden;
+    color: white;
+    background-image: url("./assets/images/bg.png");
+    background-size: cover;
+}
+
+.container {
+    height: 100vh;
+    position: relative;
+}
