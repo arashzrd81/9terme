@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import gsap from "gsap";
 import logo from "../../assets/images/logo.svg";
-import guideIcon from "../../assets/images/guide-icon.svg";
-import clearIcon from "../../assets/images/clear-icon.svg";
-import lineIcon from "../../assets/images/line-icon.svg";
-import arrowIcon from "../../assets/images/arrow-icon.svg";
+import guideIcon from "../../assets/images/icon-guide.svg";
+import clearIcon from "../../assets/images/icon-clear.svg";
+import lineIcon from "../../assets/images/icon-line.svg";
+import arrowIcon from "../../assets/images/icon-arrow.svg";
 import "./Calculator.css";
 
 
 const intRegex = /^[\u06F0-\u06F90-9]+$/;
 
-const Calculator = () => {
+const Calculator = ({swap}) => {
 
     const [firstTime, setFirstTime] = useState(true);
     const [currentGPA, setCurrentGPA] = useState();
@@ -106,7 +106,7 @@ const Calculator = () => {
 
     return (
         <section className="calculator-wrapper">
-            <img className="guide-icon" src={guideIcon} alt="" />
+            <img className="guide-icon" src={guideIcon} alt="" onClick={swap} />
             <img className="logo" src={logo} alt="" />
             <form onSubmit={handleSubmit} noValidate={true}>
                 {
