@@ -13,13 +13,13 @@ const App = () => {
         const backCard = containerRef.current.firstChild;
         const frontCard = containerRef.current.lastChild;
         if (clickedCard === frontCard) {
-            backCard.style.animation = "back-card-sliding 1200ms forwards";
-            frontCard.style.animation = "front-card-sliding 1200ms forwards";
+            backCard.style.animation = "back-card-sliding 1500ms forwards";
+            frontCard.style.animation = "front-card-sliding 1500ms forwards";
             setTimeout(() => {
                 backCard.style.animation = "";
                 frontCard.style.animation = "";
                 containerRef.current.prepend(frontCard);
-            }, 1200);
+            }, 1500);
         }
     };
 

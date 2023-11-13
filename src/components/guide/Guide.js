@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../../assets/images/logo.svg";
 import calculatorIcon from "../../assets/images/icon-calculator.svg";
+import teamIcon from "../../assets/images/icon-team.svg";
 import hesamPfp from "../../assets/images/pfp-hesam.png";
 import arashPfp from "../../assets/images/pfp-arash.png";
 import amirPfp from "../../assets/images/pfp-amir.png";
@@ -14,35 +15,35 @@ const members = [
             name: "سید حسام‌الدین حسینی غنچه",
             profession: "طراح گرافیک، رابط و تجربه‌ی کاربری"
         },
-        links: {
-            email: "#",
-            linkedin: "#",
-            github: "#"
-        }
+        links: [
+            "Hesamtek@gmail.com",
+            "https://www.linkedin.com/in/hesam-hosseini-518732270?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+            "https://instagram.com/hesam_hosseini_design?igshid=YmhybzA5dWE3N2Jo"
+        ]
     },
     {
         pfp: arashPfp,
         info: {
             name: "آرش پیرحیاتی",
-            profession: "توسعه‌دهنده‌ فرانت‌اند و وب 3"
+            profession: "توسعه‌دهنده‌ی فرانت‌اند و بلاکچین"
         },
-        links: {
-            email: "#",
-            linkedin: "#",
-            github: "#"
-        }
+        links: [
+            "ArashPirhayati1381@gmail.com",
+            "https://linkedin.com/in/arashzrd81",
+            "https://github.com/arashzrd81"
+        ]
     },
     {
         pfp: amirPfp,
         info: {
             name: "امیرحسین قیصربیگی",
-            profession: "مهندس هوش مصنوعی"
+            profession: "طراح الگوریتم و دانشمند داده"
         },
-        links: {
-            email: "#",
-            linkedin: "#",
-            github: "#"
-        }
+        links: [
+            "amir.gheysarbeygi@gmail.com",
+            "https://linkedin.com/in/amir-qeysarbeigi-177247225",
+            "https://github.com/amirqeysarbeigi"
+        ]
     }
 ];
 
@@ -73,17 +74,11 @@ const Guide = ({swap}) => {
                     فقط باید جای کل واحد های فارغ‌التحصیلی واحد های ترمت رو بذاری.
                 </p>
             </div>
-            <span className="dividing-line"></span>
             <div className="team">
-                <h2>تیم ۹ ترمه</h2>
+                <img className="team-icon" src={teamIcon} alt="" />
                 {
                     members.map((member, index) => (
-                        <Member
-                            key={index}
-                            pfp={member.pfp}
-                            info={member.info}
-                            links={member.links}
-                        />
+                        <Member key={index} member={member} />
                     ))
                 }
             </div>
@@ -92,25 +87,32 @@ const Guide = ({swap}) => {
 };
 
 
-const Member = ({pfp, info, links}) => {
+const Member = ({member}) => {
+
+    const {pfp, info: {name, profession}, links} = member;
+
     return (
         <div className="member">
             <div className="profile">
-                <img src={pfp} alt="" />
+                <img className="pfp" src={pfp} alt="" />
                 <div className="info">
-                    <span>{info.name}</span>
-                    <span>{info.profession}</span>
+                    <span>{name}</span>
+                    <span>{profession}</span>
                 </div>
             </div>
             <nav>
-                <a href={links.email} target="blank">
-                    <i class="fa-solid fa-envelope"></i>
+                <a href={`mailto:${links[0]}`} target="blank">
+                    <i className="fa-solid fa-envelope"></i>
                 </a>
-                <a href={links.linkedin} target="blank">
-                    <i class="fa-brands fa-linkedin"></i>
+                <a href={links[1]} target="blank">
+                    <i className="fa-brands fa-linkedin"></i>
                 </a>
-                <a href={links.github} target="blank">
-                    <i class="fa-brands fa-github"></i>
+                <a href={links[2]} target="blank">
+                    {
+                        links[2].includes("github") ?
+                        <i className="fa-brands fa-github"></i> :
+                        <i class="fa-brands fa-instagram"></i>
+                    }
                 </a>
             </nav>
         </div>

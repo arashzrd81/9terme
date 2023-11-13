@@ -1,5 +1,5 @@
 .guide-wrapper {
-    padding: 15.5px 16px 56px;
+    padding: 17px 28px 80px;
     background-color: #021E43;
 }
 
@@ -10,12 +10,12 @@
 }
 
 .guide-wrapper .text {
-    margin-top: 30px;
+    margin-top: 32.5px;
     display: flex;
     flex-direction: column;
     row-gap: 8px;
     text-align: center;
-    font-size: 9px;
+    font-size: 9.5px;
     font-weight: 500;
 }
 
@@ -23,10 +23,11 @@
     font-weight: 900;
 }
 
-.guide-wrapper .dividing-line {
+.guide-wrapper .team::before {
+    content: "";
     width: 145px;
     height: 0.5px;
-    margin: 10px 0;
+    margin-top: 20px;
     background-color: #898989;
 }
 
@@ -38,9 +39,8 @@
     row-gap: 20px;
 }
 
-.guide-wrapper .team h2 {
-    font-size: 20px;
-    color: #0097FF;
+.guide-wrapper .team .team-icon {
+    margin-bottom: 12px;
 }
 
 .guide-wrapper .team .member {
@@ -53,7 +53,7 @@
 
 .guide-wrapper .member .profile {
     width: 100%;
-    margin-right: 17px;
+    margin-right: 45px;
     display: flex;
     align-items: center;
     column-gap: 21px;
@@ -61,15 +61,20 @@
 
 .guide-wrapper .member:nth-child(3) .profile {
     margin-right: 0;
-    margin-left: 17px;
+    margin-left: 45px;
     flex-direction: row-reverse;
+}
+
+.guide-wrapper .profile .pfp {
+    width: 50px;
+    height: 50px;
 }
 
 .guide-wrapper .profile .info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 6px;
+    row-gap: 7px;
     font-size: 10px;
 }
 
@@ -101,15 +106,15 @@
         row-gap: 10px;
         font-size: 14px;
     }
-    .guide-wrapper .dividing-line {
+    .guide-wrapper .team::before {
         width: 338px;
-        margin: 15px 0;
+        margin-top: 15px;
     }
     .guide-wrapper .team {
         row-gap: 35px;
     }
-    .guide-wrapper .team h2 {
-        font-size: 25px;
+    .guide-wrapper .team .team-icon {
+        scale: 1.27;
     }
     .guide-wrapper .team .member {
         padding: 0 30px;

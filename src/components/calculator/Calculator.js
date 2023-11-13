@@ -13,94 +13,144 @@ const intRegex = /^[\u06F0-\u06F90-9]+$/;
 const Calculator = ({swap}) => {
 
     const [firstTime, setFirstTime] = useState(true);
-    const [currentGPA, setCurrentGPA] = useState();
-    const [unitsPassed, setUnitsPassed] = useState();
-    const [wholeUnits, setWholeUnits] = useState();
-    const [goalGPA, setGoalGPA] = useState();
+    const [currentGPA, setCurrentGPA] = useState({
+        value: "",
+        error: ""
+    });
+    const [unitsPassed, setUnitsPassed] = useState({
+        value: "",
+        error: ""
+    });
+    const [wholeUnits, setWholeUnits] = useState({
+        value: "",
+        error: ""
+    });
+    const [goalGPA, setGoalGPA] = useState({
+        value: "",
+        error: ""
+    });
     const [minGPA, setMinGPA] = useState(0);
 
     const fieldsAttributes = [
         {
             label: "معدل کل الانت",
-            value: currentGPA,
-            setValue: setCurrentGPA
+            state: currentGPA,
+            setState: setCurrentGPA
         },
         {
             label: "تعداد واحدایی که پاس کردی",
-            value: unitsPassed,
-            setValue: setUnitsPassed
+            state: unitsPassed,
+            setState: setUnitsPassed
         },
         {
             label: "تعداد واحدایی که برای فارغ‌التحصیلی باید پاس کنی",
-            value: wholeUnits,
-            setValue: setWholeUnits
+            state: wholeUnits,
+            setState: setWholeUnits
         },
         {
             label: "معدل کل هدفت",
-            value: goalGPA,
-            setValue: setGoalGPA
+            state: goalGPA,
+            setState: setGoalGPA
         }
     ];
 
     useEffect(() => {
-        if (currentGPA && unitsPassed && wholeUnits && goalGPA) {
-            gsap.to(".line-icon", {
-                duration: 1.5,
-                ease: "power2.out",
-                scale: 1
+        if (firstTime) {
+            if (currentGPA.value && unitsPassed.value && wholeUnits.value && goalGPA.value) {
+                gsap.to(".line-cover", {
+                    duration: 1.5,
+                    scaleY: 0,
+                    transformOrigin: "center bottom"
+                });
+                setFirstTime(false);
+            }
+        }
+    }, [firstTime, currentGPA.value, unitsPassed.value, wholeUnits.value, goalGPA.value]);
+
+    const handleValidate = () => {
+        let errors = [false, false, false, false];
+        if (!intRegex.test(unitsPassed.value)) {
+            setUnitsPassed({
+                ...unitsPassed,
+                error: "تعداد واحد نامعتبر"
             });
-        } else {
-            gsap.to(".line-icon", {
-                duration: 0.75,
-                ease: "power2.in",
-                scale: 0
+            errors[1] = true;
+        }
+        if (!intRegex.test(wholeUnits.value)) {
+            setWholeUnits({
+                ...wholeUnits,
+                error: "تعداد واحد نامعتبر"
+            });
+            errors[2] = true;
+        }
+        fieldsAttributes.forEach((fieldAttributes, index) => {
+            if (!fieldAttributes.state.value) {
+                fieldAttributes.setState({
+                    ...fieldAttributes.state,
+                    error: "لطفا فیلد رو پر کن"
+                });
+                errors[index] = true;
+            }
+        });
+        fieldsAttributes.forEach((fieldAttributes, index) => {
+            if (!errors[index]) {
+                fieldAttributes.setState({
+                    ...fieldAttributes.state,
+                    error: ""
+                });
+            }
+        });
+        return errors;
+    };
+
+    const handleCalculate = () => {
+        const unitsDiff = wholeUnits.value - unitsPassed.value;
+        const result = ((goalGPA.value * wholeUnits.value) - (unitsPassed.value * currentGPA.value)) / unitsDiff;
+        return {
+            unitsDiff,
+            result
+        };
+    };
+
+    const handleTransitions = (unitsDiff, result) => {
+        gsap.to(".arrow-cover", {
+            duration: 1.5,
+            scaleY: 0,
+            transformOrigin: "center bottom"
+        });
+        gsap.to([".result-possible", ".result-impossible"], {
+            duration: 0.001,
+            display: "flex",
+            opacity: 0
+        });
+        let element = ".result-possible";
+        if (
+            !(
+                0 < unitsDiff && unitsDiff % 1 === 0
+                && 0 <= result && result <= 20
+            )
+        ) {
+            element = ".result-impossible"
+            gsap.to(".result-possible", {
+                display: "none"
             });
         }
-    }, [currentGPA, unitsPassed, wholeUnits, goalGPA]);
+        gsap.to(element, {
+            duration: 1,
+            delay: 1.5,
+            opacity: 1
+        });
+    };
 
     const handleSubmit = event => {
         event.preventDefault();
-        setFirstTime(false);
-        if (currentGPA && intRegex.test(unitsPassed) && intRegex.test(wholeUnits) && goalGPA) {
-            gsap.to([".result-possible", ".result-impossible"], {
-                duration: 0.001,
-                display: "flex",
-                opacity: 0
-            });
-            gsap.fromTo(".arrow-icon",
-            {
-                scale: 0
-            },
-            {
-                duration: 0.75,
-                ease: "power2.out",
-                scale: 1
-            });
-            const temp1 = wholeUnits - unitsPassed;
-            const temp2 = ((goalGPA * wholeUnits) - (unitsPassed * currentGPA)) / temp1;
-            setMinGPA(temp2);
-            let element = ".result-possible";
-            if (
-                !(
-                    0 < temp1 && temp1 % 1 === 0
-                    && 0 <= temp2 && temp2 <= 20
-                )
-            ) {
-                element = ".result-impossible"
-                gsap.to(".result-possible", {
-                    display: "none"
-                });
+        const errors = handleValidate();
+        if (!errors.includes(true)) {
+            const {unitsDiff, result} = handleCalculate();
+            if (minGPA !== result) {
+                setMinGPA(result);
+                handleTransitions(unitsDiff, result);
             }
-            gsap.fromTo(element,
-            {
-                opacity: 0
-            },
-            {
-                duration: 1.5,
-                delay: 0.75,
-                ease: "power2.out",
-                opacity: 1
-            });
         }
     };
 
@@ -111,18 +161,18 @@ const Calculator = ({swap}) => {
             <form onSubmit={handleSubmit} noValidate={true}>
                 {
                     fieldsAttributes.map((fieldAttributes, index) =>
-                        <Field
-                            key={index}
-                            firstTime={firstTime}
-                            label={fieldAttributes.label}
-                            value={fieldAttributes.value}
-                            setValue={fieldAttributes.setValue}
-                        />
+                        <Field key={index} fieldAttributes={fieldAttributes} />
                     )
                 }
-                <img className="line-icon" src={lineIcon} alt="" />
+                <div className="line-wrapper">
+                    <img className="line-icon" src={lineIcon} alt="" />
+                    <span className="line-cover"></span>
+                </div>
                 <button type="submit">محاسبه</button>
-                <img className="arrow-icon" src={arrowIcon} alt="" />
+                <div className="arrow-wrapper">
+                    <img className="arrow-icon" src={arrowIcon} alt="" />
+                    <span className="arrow-cover"></span>
+                </div>
             </form>
             <div className="result-possible">
                 <span>{minGPA.toFixed(2)}</span>
@@ -136,35 +186,41 @@ const Calculator = ({swap}) => {
 };
 
 
-const Field = ({firstTime, label, value, setValue}) => {
+const Field = ({fieldAttributes}) => {
+
+    const {label, state, setState} = fieldAttributes;
+
     return (
         <div className="field">
             <label>{label}:</label>
             <div className="main">
                 <input
                     type="number"
-                    value={value}
-                    onChange={event => setValue(event.target.value)}
+                    value={state.value}
+                    onChange={event => setState({
+                        ...state,
+                        value: event.target.value
+                    })}
                 />
                 {
-                    value &&
-                    <img className="clear-icon" src={clearIcon} alt="" onClick={() => setValue("")} />
+                    state.value &&
+                    <img
+                        className="clear-icon"
+                        src={clearIcon}
+                        alt=""
+                        onClick={() => setState({
+                            ...state,
+                            value: ""
+                        })}
+                    />
                 }
-                <div className="error">
-                    {
-                        ((!firstTime && !value) ||
-                        (!firstTime && label.includes("واحدایی") && !intRegex.test(value))) &&
+                {
+                    state.error &&
+                    <div className="error">
                         <i className="fa-solid fa-triangle-exclamation"></i>
-                    }
-                    <span>
-                        {
-                            !firstTime && !value ?
-                            "لطفا فیلد رو پر کن" :
-                            !firstTime && label.includes("واحدایی") && !intRegex.test(value) &&
-                            "تعداد واحد نامعتبر"
-                        }
-                    </span>
-                </div>
+                        <span>{state.error}</span>
+                    </div>
+                }
             </div>
         </div>
     );
