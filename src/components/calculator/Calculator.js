@@ -15,35 +15,36 @@ const Calculator = ({swap}) => {
     const [firstTime, setFirstTime] = useState(true);
     const [currentGPA, setCurrentGPA] = useState({
         value: "",
-        error: ""
+        error: false
     });
     const [unitsPassed, setUnitsPassed] = useState({
         value: "",
-        error: ""
+        error: false
     });
     const [wholeUnits, setWholeUnits] = useState({
         value: "",
-        error: ""
+        error: false
     });
     const [goalGPA, setGoalGPA] = useState({
         value: "",
-        error: ""
+        error: false
     });
+    const [errorMessage, setErrorMessage] = useState("");
     const [minGPA, setMinGPA] = useState(0);
 
     const fieldsAttributes = [
         {
-            label: "معدل کل الانت",
+            label: "معدل کل",
             state: currentGPA,
             setState: setCurrentGPA
         },
         {
-            label: "تعداد واحدایی که پاس کردی",
+            label: "تعداد واحدهایی که پاس کردی",
             state: unitsPassed,
             setState: setUnitsPassed
         },
         {
-            label: "تعداد واحدایی که برای فارغ‌التحصیلی باید پاس کنی",
+            label: "تعداد واحدهای رشته (مثلا برق 140)",
             state: wholeUnits,
             setState: setWholeUnits
         },
@@ -58,7 +59,7 @@ const Calculator = ({swap}) => {
         if (firstTime) {
             if (currentGPA.value && unitsPassed.value && wholeUnits.value && goalGPA.value) {
                 gsap.to(".line-cover", {
-                    duration: 1.5,
+                    duration: 0.35,
                     scaleY: 0,
                     transformOrigin: "center bottom"
                 });
@@ -69,34 +70,56 @@ const Calculator = ({swap}) => {
 
     const handleValidate = () => {
         let errors = [false, false, false, false];
-        if (!intRegex.test(unitsPassed.value)) {
-            setUnitsPassed({
-                ...unitsPassed,
-                error: "تعداد واحد نامعتبر"
-            });
-            errors[1] = true;
-        }
-        if (!intRegex.test(wholeUnits.value)) {
-            setWholeUnits({
-                ...wholeUnits,
-                error: "تعداد واحد نامعتبر"
-            });
-            errors[2] = true;
-        }
         fieldsAttributes.forEach((fieldAttributes, index) => {
             if (!fieldAttributes.state.value) {
                 fieldAttributes.setState({
                     ...fieldAttributes.state,
-                    error: "لطفا فیلد رو پر کن"
+                    error: true
                 });
                 errors[index] = true;
+                setErrorMessage("لطفا فیلدها رو پر کن");
             }
         });
+        if (!errors.includes(true)) {
+            if (!intRegex.test(unitsPassed.value)) {
+                setUnitsPassed({
+                    ...unitsPassed,
+                    error: true
+                });
+                errors[1] = true;
+                setErrorMessage("تعداد واحد نمیتونه اعشاری باشه");
+            }
+            if (!intRegex.test(wholeUnits.value)) {
+                setWholeUnits({
+                    ...wholeUnits,
+                    error: true
+                });
+                errors[2] = true;
+                setErrorMessage("تعداد واحد نمیتونه اعشاری باشه");
+            }
+            if (!errors.includes(true)) {
+                if (Number(wholeUnits.value) < Number(unitsPassed.value)) {
+                    setUnitsPassed({
+                        ...unitsPassed,
+                        error: true
+                    });
+                    errors[1] = true;
+                    setWholeUnits({
+                        ...wholeUnits,
+                        error: true
+                    });
+                    errors[2] = true;
+                    setErrorMessage("واحدهای رشته کمتر از واحدهای پاس کرده هستن");
+                } else {
+                    setErrorMessage("");
+                }
+            }
+        }
         fieldsAttributes.forEach((fieldAttributes, index) => {
             if (!errors[index]) {
                 fieldAttributes.setState({
                     ...fieldAttributes.state,
-                    error: ""
+                    error: false
                 });
             }
         });
@@ -104,8 +127,11 @@ const Calculator = ({swap}) => {
     };
 
     const handleCalculate = () => {
-        const unitsDiff = wholeUnits.value - unitsPassed.value;
-        const result = ((goalGPA.value * wholeUnits.value) - (unitsPassed.value * currentGPA.value)) / unitsDiff;
+        const unitsDiff = Number(wholeUnits.value) - Number(unitsPassed.value);
+        const result = (
+            (Number(goalGPA.value) * Number(wholeUnits.value)) -
+            (Number(unitsPassed.value) * Number(currentGPA.value))
+        ) / unitsDiff;
         return {
             unitsDiff,
             result
@@ -114,32 +140,41 @@ const Calculator = ({swap}) => {
 
     const handleTransitions = (unitsDiff, result) => {
         gsap.to(".arrow-cover", {
-            duration: 1.5,
+            duration: 0.35,
             scaleY: 0,
             transformOrigin: "center bottom"
         });
-        gsap.to([".result-possible", ".result-impossible"], {
-            duration: 0.001,
+        gsap.to([".result-possible *", ".result-impossible"], {
+            duration: 0,
             display: "flex",
             opacity: 0
         });
-        let element = ".result-possible";
         if (
             !(
                 0 < unitsDiff && unitsDiff % 1 === 0
                 && 0 <= result && result <= 20
             )
         ) {
-            element = ".result-impossible"
-            gsap.to(".result-possible", {
+            gsap.to(".result-possible *", {
+                duration: 0,
                 display: "none"
             });
+            gsap.to(".result-impossible", {
+                duration: 0.35,
+                delay: 0.35,
+                opacity: 1
+            });
+        } else {
+            [".result-possible :nth-child(1)", ".result-possible :nth-child(2)"].forEach(
+                (element, index) => {
+                    gsap.to(element, {
+                        duration: 0.35,
+                        delay: index * 0.35 + 0.35,
+                        opacity: 1
+                    });
+                }
+            )
         }
-        gsap.to(element, {
-            duration: 1,
-            delay: 1.5,
-            opacity: 1
-        });
     };
 
     const handleSubmit = event => {
@@ -147,10 +182,20 @@ const Calculator = ({swap}) => {
         const errors = handleValidate();
         if (!errors.includes(true)) {
             const {unitsDiff, result} = handleCalculate();
-            if (minGPA !== result) {
+            if (result !== minGPA) {
                 setMinGPA(result);
                 handleTransitions(unitsDiff, result);
             }
+        } else {
+            setMinGPA(0);
+            gsap.to(".arrow-cover", {
+                duration: 0,
+                scaleY: 1
+            });
+            gsap.to([".result-possible *", ".result-impossible"], {
+                duration: 0,
+                opacity: 0
+            });
         }
     };
 
@@ -169,6 +214,13 @@ const Calculator = ({swap}) => {
                     <span className="line-cover"></span>
                 </div>
                 <button type="submit">محاسبه</button>
+                {
+                    errorMessage &&
+                    <div className="error">
+                        <i className="fa-solid fa-triangle-exclamation"></i>
+                        <span>{errorMessage}</span>
+                    </div>
+                }
                 <div className="arrow-wrapper">
                     <img className="arrow-icon" src={arrowIcon} alt="" />
                     <span className="arrow-cover"></span>
@@ -176,7 +228,7 @@ const Calculator = ({swap}) => {
             </form>
             <div className="result-possible">
                 <span>{minGPA.toFixed(2)}</span>
-                <span>معدل هدفت برای ترمای باقی مونده‌ست!</span>
+                <span>(معدل هدفت برای ترمای باقی‌مونده)</span>
             </div>
             <span className="result-impossible">
                 با نمرات الانت نمیتونی به هدفت برسی :(
@@ -216,10 +268,7 @@ const Field = ({fieldAttributes}) => {
                 }
                 {
                     state.error &&
-                    <div className="error">
-                        <i className="fa-solid fa-triangle-exclamation"></i>
-                        <span>{state.error}</span>
-                    </div>
+                    <i className="fa-solid fa-triangle-exclamation"></i>
                 }
             </div>
         </div>

@@ -1,14 +1,14 @@
 .calculator-wrapper {
-    padding: 11px 20px 45px;
+    padding: 11px 20px 15px;
     border: 1px solid black;
     background-color: #000E20;
 }
 
 .calculator-wrapper .guide-icon {
     position: absolute;
-    top: -215px;
-    right: -180px;
-    scale: 0.2;
+    top: -205px;
+    right: -170px;
+    scale: 0.24;
 }
 
 .calculator-wrapper form {
@@ -23,11 +23,11 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 8px;
+    row-gap: 7px;
 }
 
 .calculator-wrapper .field label {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
 }
 
@@ -65,20 +65,12 @@
     left: 10px;
 }
 
-.calculator-wrapper .main .error {
+.calculator-wrapper .main .fa-triangle-exclamation {
     position: absolute;
     top: 15px;
-    left: -77px;
-    display: flex;
-    align-items: center;
-    column-gap: 5px;
-    font-size: 7px;
-    font-weight: 500;
-    color: #76FA43;
-}
-
-.calculator-wrapper .error i {
-    font-size: 10px;
+    transform: translateX(-17px);
+    font-size: 14.5px;
+    color: #E9D502;
 }
 
 .calculator-wrapper form button {
@@ -100,11 +92,11 @@
 }
 
 .calculator-wrapper form .line-wrapper {
-    margin: -15px 0 -37px;
+    margin: -20px 0 -43px;
 }
 
 .calculator-wrapper form .arrow-wrapper {
-    margin: -12px 0 4px;
+    margin: -18px 0 7px;
 }
 
 .calculator-wrapper form :where(.line-cover, .arrow-cover) {
@@ -117,7 +109,20 @@
     background-color: #000E20;
 }
 
-.calculator-wrapper :where(.result-possible, .result-impossible) {
+.calculator-wrapper .error {
+    margin-top: -10px;
+    display: flex;
+    column-gap: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    color: #E9D502;
+}
+
+.calculator-wrapper .error i {
+    font-size: 14.5px;
+}
+
+.calculator-wrapper :where(.result-possible *, .result-impossible) {
     opacity: 0;
     font-size: 13px;
     font-weight: 700;
@@ -140,12 +145,12 @@
     align-items: center;
     color: black;
     background-color: white;
-    box-shadow: 0 0 15px #FE5;
+    box-shadow: 0 0 15px #91FF04;
 }
 
 .calculator-wrapper .result-possible :last-child,
 .calculator-wrapper .result-impossible {
-    color: #FE5;
+    color: #91FF04;
 }
 
 
@@ -157,8 +162,8 @@
         padding: 18px 35px 35px;
     }
     .calculator-wrapper .guide-icon {
-        top: -195px;
-        right: -165px;
+        top: -192px;
+        right: -162px;
         scale: 0.29;
         cursor: pointer;
     }
@@ -181,15 +186,8 @@
         scale: 1.4;
         cursor: pointer;
     }
-    .calculator-wrapper .main .error {
-        top: 11px;
-        left: -125px;
-        align-items: flex-start;
-        column-gap: 7px;
-        font-size: 11.5px;
-    }
-    .calculator-wrapper .error i {
-        font-size: 16.5px;
+    .calculator-wrapper .main .fa-triangle-exclamation {
+        font-size: 15.5px;
     }
     .calculator-wrapper form button {
         width: 168px;
@@ -197,8 +195,14 @@
         font-size: 19px;
         cursor: pointer;
     }
+    .calculator-wrapper .error {
+        font-size: 11.5px;
+    }
+    .calculator-wrapper .error i {
+        font-size: 15.5px;
+    }
     .calculator-wrapper :where(.result-possible, .result-impossible) {
-        font-size: 14px;
+        font-size: 15px;
     }
     .calculator-wrapper .result-possible :first-child {
         width: 48px;
