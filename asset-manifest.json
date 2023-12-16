@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/9terme/static/css/main.a71a4c8e.css",
+    "main.js": "/9terme/static/js/main.5932777b.js",
+    "static/media/bg.png": "/9terme/static/media/bg.2840b128f2c65380a306.png",
+    "static/media/Ravi.ttf": "/9terme/static/media/Ravi.30da3f01d63f58a841a1.ttf",
+    "static/media/pfp-arash.png": "/9terme/static/media/pfp-arash.a273aa3e1dbc3bc7fc96.png",
+    "static/media/pfp-hesam.png": "/9terme/static/media/pfp-hesam.972ee4b3d26fd7131bd4.png",
+    "static/media/logo.svg": "/9terme/static/media/logo.56c7eec316c1690358d2fb82def1b62d.svg",
+    "static/media/pfp-amir.png": "/9terme/static/media/pfp-amir.b055a9fb7e3d88cb061b.png",
+    "static/media/icon-guide.svg": "/9terme/static/media/icon-guide.56fce7d8a66ea273b20fd42c25b22931.svg",
+    "static/media/icon-team.svg": "/9terme/static/media/icon-team.4c82d71bf9c2cacc7beeaaf9f2ad4931.svg",
+    "static/media/icon-calculator.svg": "/9terme/static/media/icon-calculator.f934a7bd570035a88f0ba4745e9cd52c.svg",
+    "static/media/icon-clear.svg": "/9terme/static/media/icon-clear.c993ecf74f543306cae18026ef19c8e5.svg",
+    "static/media/icon-arrow.svg": "/9terme/static/media/icon-arrow.80f5d0dc1ca141cf3387a2c359b9b507.svg",
+    "index.html": "/9terme/index.html",
+    "static/media/icon-line.svg": "/9terme/static/media/icon-line.a0e70cae3974c6fb24069cf404387faa.svg",
+    "main.a71a4c8e.css.map": "/9terme/static/css/main.a71a4c8e.css.map",
+    "main.5932777b.js.map": "/9terme/static/js/main.5932777b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a71a4c8e.css",
+    "static/js/main.5932777b.js"
+  ]
+}
