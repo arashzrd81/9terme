@@ -1,0 +1,88 @@
+.guide-wrapper {
+    padding: 17px 20px 80px;
+    background-color: #021E43;
+}
+
+.guide-wrapper .calculator-icon {
+    position: absolute;
+    top: 26px;
+    right: 27px;
+}
+
+.guide-wrapper .text {
+    margin-top: 32.5px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    text-align: center;
+    font-size: 9.5px;
+    font-weight: 500;
+}
+
+.guide-wrapper .text p {
+    line-height: 18px;
+}
+
+.guide-wrapper .text span:nth-child(2) {
+    font-weight: 900;
+}
+
+.guide-wrapper .text p:last-child {
+    margin-top: -10px;
+}
+
+.guide-wrapper .team::before {
+    content: "";
+    width: 145px;
+    height: 0.5px;
+    margin-top: 20px;
+    background-color: #898989;
+}
+
+.guide-wrapper .team {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20px;
+}
+
+.guide-wrapper .team .team-icon {
+    margin-bottom: 5px;
+}
+
+
+
+/* Media Query */
+
+@media screen and (min-width: 590px) {
+    .guide-wrapper {
+        padding: 25px 42px 81px;
+    }
+    .guide-wrapper .calculator-icon {
+        top: 40px;
+        right: 47px;
+        scale: 1.08;
+        cursor: pointer;
+    }
+    .guide-wrapper .text {
+        row-gap: 12px;
+        font-size: 14px;
+    }
+    .guide-wrapper .text p {
+        line-height: 23px;
+    }
+    .guide-wrapper .text p:last-child {
+        margin-top: -13px;
+    }
+    .guide-wrapper .team::before {
+        width: 338px;
+        margin-top: 15px;
+    }
+    .guide-wrapper .team {
+        row-gap: 35px;
+    }
+    .guide-wrapper .team .team-icon {
+        scale: 1.27;
+    }
+}

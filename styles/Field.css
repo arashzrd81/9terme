@@ -1,0 +1,78 @@
+.field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 7px;
+}
+
+.field label {
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.field .main {
+    position: relative;
+}
+
+.field .main input {
+    width: 112px;
+    height: 42.5px;
+    padding: 0 12px;
+    border: 1px solid black;
+    border-radius: 10px;
+    outline: none;
+    text-align: center;
+    font-size: 16px;
+    color: white;
+    background-color: #363636;
+}
+
+.field .main input::-webkit-outer-spin-button,
+.field .main input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.field .main input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.field .main .clear-icon {
+    position: absolute;
+    top: 15px;
+    left: 10px;
+}
+
+.field .main .fa-triangle-exclamation {
+    position: absolute;
+    top: 15px;
+    transform: translateX(-17px);
+    font-size: 14.5px;
+    color: #E9D502;
+}
+
+
+
+/* Media Query */
+
+@media screen and (min-width: 590px) {
+    .field {
+        row-gap: 7px;
+    }
+    .field label {
+        font-size: 14px;
+    }
+    .field .main input {
+        width: 135px;
+        height: 40px;
+        font-size: 18px;
+    }
+    .field .main .clear-icon {
+        scale: 1.4;
+        cursor: pointer;
+    }
+    .field .main .fa-triangle-exclamation {
+        font-size: 15.5px;
+    }
+}
